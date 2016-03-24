@@ -7,9 +7,15 @@ public interface MainPresenter {
 
     void addImageToGallery();
 
-     void onResume();
+    void onResume();
 
-     void onDestroy();
+    void onDestroy();
 
     void startWallpaperLoader();
+
+    void navigateToSettingsScreen();
+
+    void navigateToFaqScreen();
+
+
 }

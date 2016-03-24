@@ -2,14 +2,19 @@ package bfergus.Terra_Wallpapers.Main;
 
 
 
+import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.Loader;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Display;
 import android.view.WindowManager;
@@ -28,8 +33,10 @@ import java.text.DateFormat;
 
 import java.util.Date;
 
+import bfergus.Terra_Wallpapers.Faq.FaqActivity;
 import bfergus.Terra_Wallpapers.Model.RedditApiModel;
 import bfergus.Terra_Wallpapers.R;
+import bfergus.Terra_Wallpapers.Settings.SettingsActivity;
 import bfergus.Terra_Wallpapers.Utils.NetworkUtils;
 import retrofit.Call;
 import retrofit.Callback;
@@ -39,24 +46,27 @@ import retrofit.Response;
 public class MainPresenterImpl implements MainPresenter {
     private MainView view;
 
+    private Activity activity;
+
     RedditApiModel redditApiData;
 
     Bitmap wallPaperBitmap;
 
     Context appContext;
 
-    public MainPresenterImpl(MainView view, Context context) {
+    public MainPresenterImpl(MainView view, Context context, Activity activity) {
         this.view = view;
         this.appContext = context;
+        this.activity = activity;
     }
 
     public void onResume() {
-        if(wallPaperBitmap != null) {
+        if (wallPaperBitmap != null) {
             view.setImageView(wallPaperBitmap);
             view.showButtons();
-        }
-        else {
+        } else {
             retrieveImageUrls();
+
         }
     }
 
@@ -64,7 +74,7 @@ public class MainPresenterImpl implements MainPresenter {
         view = null;
     }
 
-    //Retrieves a list of 25 image urls from Reddit.com
+    //Retrieves a list of 25 image urls from Reddit.com/r/earthporn
     private void retrieveImageUrls() {
         view.showProgressViews(appContext.getString(R.string.fetching_images));
         Call<RedditApiModel> call = NetworkUtils.getApiCall();
@@ -101,7 +111,8 @@ public class MainPresenterImpl implements MainPresenter {
                 .listener(new RequestListener<String, Bitmap>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        if(position == redditApiData.getUrlListLength()) view.showMessage(appContext.getString(R.string.Out_Of_Images));
+                        if (position == redditApiData.getUrlListLength())
+                            view.showToast(appContext.getString(R.string.Out_Of_Images));
                         else getWallpaperBitmap(position + 1);
                         return false;
                     }
@@ -121,6 +132,7 @@ public class MainPresenterImpl implements MainPresenter {
                     }
                 });
     }
+
     public void showButtons() {
         view.removeProgressViews();
         view.showButtons();
@@ -130,7 +142,7 @@ public class MainPresenterImpl implements MainPresenter {
         view.setImageView(wallPaperBitmap);
     }
 
-    public  void addImageToGallery(){
+    public void addImageToGallery() {
         ContentResolver cr = appContext.getContentResolver();
 
         ContentValues values = new ContentValues();
@@ -164,16 +176,16 @@ public class MainPresenterImpl implements MainPresenter {
                 cr.delete(url, null, null);
                 url = null;
             }
-            view.showMessage(appContext.getString(R.string.Wallpaper_Saved));
+            view.showToast(appContext.getString(R.string.Wallpaper_Saved));
         } catch (Exception e) {
             if (url != null) {
                 cr.delete(url, null, null);
             }
-            view.showMessage(appContext.getString(R.string.Wallpaper_save_error));
+            view.showToast(appContext.getString(R.string.Wallpaper_save_error));
         }
     }
 
-    private static  Bitmap storeThumbnail(
+    private static Bitmap storeThumbnail(
             ContentResolver cr,
             Bitmap source,
             long id,
@@ -196,9 +208,9 @@ public class MainPresenterImpl implements MainPresenter {
         );
 
         ContentValues values = new ContentValues(4);
-        values.put(MediaStore.Images.Thumbnails.KIND,kind);
-        values.put(MediaStore.Images.Thumbnails.IMAGE_ID,(int)id);
-        values.put(MediaStore.Images.Thumbnails.HEIGHT,thumb.getHeight());
+        values.put(MediaStore.Images.Thumbnails.KIND, kind);
+        values.put(MediaStore.Images.Thumbnails.IMAGE_ID, (int) id);
+        values.put(MediaStore.Images.Thumbnails.HEIGHT, thumb.getHeight());
         values.put(MediaStore.Images.Thumbnails.WIDTH, thumb.getWidth());
 
         Uri url = cr.insert(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, values);
@@ -223,6 +235,32 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     public void startWallpaperLoader() {
-        view.startWallpaperLoader(wallPaperBitmap);
+        activity.getLoaderManager().initLoader(0, null,
+                new LoaderManager.LoaderCallbacks<Boolean>() {
+                    @Override
+                    public Loader<Boolean> onCreateLoader(int id, Bundle args) {
+                        view.showToast(appContext.getString(R.string.setting_wallpaper));
+                        return new WallpaperLoader(appContext,wallPaperBitmap);
+                    }
+                    @Override
+                    public void onLoadFinished(Loader<Boolean> loader, Boolean loadSuccessful) {
+                        if(loadSuccessful) view.showToast(appContext.getString(R.string.Wallpaper_Set));
+                        else view.showToast(appContext.getString(R.string.Wallpaper_Error));
+                    }
+                    @Override
+                    public void onLoaderReset(Loader<Boolean> loader) {
+
+                    }
+                }).forceLoad();
+    }
+
+
+    public void navigateToSettingsScreen() {
+        activity.startActivity(new Intent(appContext, SettingsActivity.class));
+    }
+
+    public void navigateToFaqScreen() {
+        activity.startActivity(new Intent(appContext, FaqActivity.class));
     }
 }
+

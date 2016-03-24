@@ -4,6 +4,8 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_faq">FAQ</string>
 
+    <string name ="reddit_base_url">https://reddit.com</string>
+
 
     <!--View Strings-->
     <string name="fetching_images">Fetching Wallpaper</string>
@@ -37,9 +39,6 @@
     <string name="alert_dialog_message">Please check your connection or try again later.</string>
     <string name ="alert_dialog_positive_bt">Try again?</string>
     <string name ="alert_dialog_negative_bt">Close</string>
-
-    <!-- Preferences -->
-
 
 
 </resources>

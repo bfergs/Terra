@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = new MainPresenterImpl(this, getApplicationContext());
+        presenter = new MainPresenterImpl(this, this,this);
         saveWallPaperIBT.setOnClickListener(this);
         setWallPaperIBT.setOnClickListener(this);
         settingsIBT.setOnClickListener(this);
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
         helpIBT.setVisibility(View.VISIBLE);
     }
 
-    public void showMessage(String msg) {
+    public void showToast(String msg) {
         Toast toast  = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
     }
@@ -123,33 +123,8 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
         builder.show();
     }
 
-    public void startWallpaperLoader(final Bitmap bitmap) {
-        getLoaderManager().initLoader(0, null,
-                new LoaderManager.LoaderCallbacks<Boolean>() {
-                    @Override
-                    public Loader<Boolean> onCreateLoader(int id, Bundle args) {
-                        showMessage(getString(R.string.setting_wallpaper));
-                        return new WallpaperLoader(getApplicationContext(),bitmap);
-                    }
-                    @Override
-                    public void onLoadFinished(Loader<Boolean> loader, Boolean loadSuccessful) {
-                        if(loadSuccessful) showMessage(getString(R.string.Wallpaper_Set));
-                        else showMessage(getString(R.string.Wallpaper_Error));
-                    }
-                    @Override
-                    public void onLoaderReset(Loader<Boolean> loader) {
 
-                    }
-                }).forceLoad();
-    }
 
-    public void navigateToSettingsScreen() {
-        startActivity(new Intent(this, SettingsActivity.class));
-    }
-
-    public void navigateToFaqScreen() {
-        startActivity(new Intent(this, FaqActivity.class));
-    }
 
     @Override
     public void onClick(View v ) {
@@ -161,10 +136,10 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
                 presenter.startWallpaperLoader();
                 break;
             case R.id.settingsIBT:
-                navigateToSettingsScreen();
+                presenter.navigateToSettingsScreen();
                 break;
             case R.id.helpIBT:
-                navigateToFaqScreen();
+                presenter.navigateToFaqScreen();
         }
     }
 

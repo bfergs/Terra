@@ -17,13 +17,10 @@ public class SettingsPresenterImpl implements SettingsPresenter {
 
     Context appContext;
 
-    public static final String PREFS_NAME = "MyPrefsFile";
-
     boolean automaticMode = false;
 
+    //boolean that's true only if automatic mode's status is changed when the activity is stopped.
     boolean alarmStatusChanged = false;
-
-    SharedPreferences preferences;
 
     public SettingsPresenterImpl(SettingsView view, Context context) {
         this.view = view;

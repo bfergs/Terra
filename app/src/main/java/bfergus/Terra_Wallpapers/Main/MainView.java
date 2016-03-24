@@ -1,8 +1,6 @@
 package bfergus.Terra_Wallpapers.Main;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.widget.ImageView;
 
 
 public interface MainView{
@@ -15,9 +13,7 @@ public interface MainView{
 
      void showButtons();
 
-     void showMessage(String msg);
-
-     void startWallpaperLoader(Bitmap bitmap);
+     void showToast(String msg);
 
      void displayAlertDialog(String title, String message, String positiveText, String negativeText);
 

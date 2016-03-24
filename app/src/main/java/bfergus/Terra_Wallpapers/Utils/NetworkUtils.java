@@ -6,6 +6,7 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import bfergus.Terra_Wallpapers.Model.RedditApiModel;
+import bfergus.Terra_Wallpapers.R;
 import bfergus.Terra_Wallpapers.Reddit_API_Interface;
 import bfergus.Terra_Wallpapers.TerraApplication;
 import retrofit.Call;
@@ -13,9 +14,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 public class NetworkUtils {
-
-    private final static String baseUrl = "https://reddit.com";
-
+    
     public static Call<RedditApiModel> getApiCall() {
         Reddit_API_Interface redditAPI = getRetrofit().create(Reddit_API_Interface.class);
         Call<RedditApiModel> Call = redditAPI.getEarth();
@@ -23,7 +22,7 @@ public class NetworkUtils {
     }
     private static Retrofit getRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(TerraApplication.getInstance().getString(R.string.reddit_base_url))
                 .client(getCache())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

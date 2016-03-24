@@ -11,7 +11,7 @@ import bfergus.Terra_Wallpapers.Utils.PreferencesUtils;
 
 
 public class StartSetWallpaperServiceOnBootReceiver extends BroadcastReceiver {
-
+    //Resets the set wallpaper service on Boot-up if enabled.
     @Override
     public void onReceive(Context context, Intent intent) {
         if(PreferencesUtils.getAutomaticMode()) startAutomaticMode(context);
