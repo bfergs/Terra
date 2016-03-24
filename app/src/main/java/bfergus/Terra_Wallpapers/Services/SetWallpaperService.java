@@ -14,34 +14,34 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.squareup.okhttp.Cache;
-import com.squareup.okhttp.OkHttpClient;
 
 
-import bfergus.Terra_Wallpapers.Model.Reddit_API_Model;
-import bfergus.Terra_Wallpapers.Reddit_API_Interface;
-import bfergus.Terra_Wallpapers.SubReddit;
+import bfergus.Terra_Wallpapers.Model.RedditApiModel;
+import bfergus.Terra_Wallpapers.Utils.NetworkUtils;
+
 import retrofit.Call;
 import retrofit.Callback;
-import retrofit.GsonConverterFactory;
+
 import retrofit.Response;
-import retrofit.Retrofit;
 
 
 public class SetWallpaperService extends IntentService {
 
-    private final static String baseUrl = "https://reddit.com";
 
-    Reddit_API_Model newsData;
+    RedditApiModel redditApiData;
 
     public SetWallpaperService() {
         super("SetWallpaperService()");
     }
 
-
     @Override
     protected void onHandleIntent(Intent intent) {
-        retrieveImage(SubReddit.Earth);
+        retrieveImageUrls();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private Point getDeviceSize() {
@@ -52,16 +52,15 @@ public class SetWallpaperService extends IntentService {
         return size;
     }
 
-    public void displayImage(final int position) {
+    private void getWallPaperBitmap(final int position) {
         Point size = getDeviceSize();
         Glide.with(getApplicationContext())
-                .load(newsData.data.children[position].data.url)
+                .load(redditApiData.data.children[position].data.url)
                 .asBitmap()
                 .listener(new RequestListener<String, Bitmap>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        displayImage(position + 1);
-                        //todo: make sure we don't run into a index out of bounds.
+                        getWallPaperBitmap(position + 1);
                         return false;
                     }
 
@@ -80,8 +79,7 @@ public class SetWallpaperService extends IntentService {
                 });
     }
 
-    public void setBitmapToWallpaper(final Bitmap bitmap) {
-
+    private void setBitmapToWallpaper(final Bitmap bitmap) {
         WallpaperManager mWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
         try {
             mWallpaperManager.setBitmap(bitmap);
@@ -91,15 +89,14 @@ public class SetWallpaperService extends IntentService {
 
     }
 
-
-    public void retrieveImage(SubReddit subReddit) {
-        Retrofit retrofit = createRetrofit();
-        Call<Reddit_API_Model> mCall = selectSubreddit(subReddit, retrofit);
-        mCall.enqueue(new Callback<Reddit_API_Model>() {
+    //Retrieves a list of 25 image urls from Reddit.com
+    private void retrieveImageUrls() {
+        Call<RedditApiModel> call = NetworkUtils.getApiCall();
+        call.enqueue(new Callback<RedditApiModel>() {
             @Override
-            public void onResponse(Response<Reddit_API_Model> response) {
-                newsData = response.body();
-                displayImage(0);
+            public void onResponse(Response<RedditApiModel> response) {
+                redditApiData = response.body();
+                getWallPaperBitmap(0);
             }
 
             @Override
@@ -108,32 +105,5 @@ public class SetWallpaperService extends IntentService {
         });
     }
 
-    public Retrofit createRetrofit() {
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(createCache())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
 
-    private OkHttpClient createCache() {
-        OkHttpClient client = new OkHttpClient();
-        Cache cache = new Cache(getApplicationContext().getCacheDir(), 1024 * 1024 * 10);
-        client.setCache(cache);
-        return client;
-    }
-
-    public Call<Reddit_API_Model> selectSubreddit(SubReddit subReddit, Retrofit retrofit) {
-        Reddit_API_Interface redditAPI = retrofit.create(Reddit_API_Interface.class);
-        Call<Reddit_API_Model> mCall;
-        switch (subReddit) {
-            case Earth:
-                mCall = redditAPI.getEarth();
-                break;
-            default:
-                mCall = null;
-                break;
-        }
-        return mCall;
-    }
 }

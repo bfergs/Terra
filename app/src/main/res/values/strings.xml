@@ -22,7 +22,7 @@
     <string name="where_can_I_find_more">Where do these images come from?</string>
     <string name ="where_can_I_find_more_explanation"><a href="https://reddit.com/r/earthporn">reddit.com/r/earthporn</a></string>
     <string name="other_subreddits">Will you consider adding other suberddits sources in the future?</string>
-    <string name="other_subreddits_explanation">It\'s a possibility. As of now, other subreddits do not recieve as many quality submissions per day.</string>
+    <string name="other_subreddits_explanation">It\'s a possibility. As of now, other subreddits do not receive as many quality submissions per day.</string>
 
     <!-- Toast Strings -->
     <string name ="Wallpaper_Set">Wallpaper Has Been Set!</string>
@@ -37,6 +37,9 @@
     <string name="alert_dialog_message">Please check your connection or try again later.</string>
     <string name ="alert_dialog_positive_bt">Try again?</string>
     <string name ="alert_dialog_negative_bt">Close</string>
+
+    <!-- Preferences -->
+
 
 
 </resources>

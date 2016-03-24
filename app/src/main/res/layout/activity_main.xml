@@ -6,16 +6,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dummy_Image_View"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:visibility="invisible"
-        android:contentDescription="@string/wallpaper_imageview_content_descirption"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/Actual_Image_View"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -46,7 +36,9 @@
         android:background="@drawable/wallpaper_image_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:visibility="invisible"
         android:contentDescription="@string/wallpaper_imagebutton_content_description" />
@@ -59,22 +51,25 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:visibility="invisible"
         android:layout_alignParentStart="true"
         android:contentDescription="@string/save_imagebutton_content_description"/>
 
     <ImageButton
-    android:layout_width="@dimen/Image_Button_Size"
-    android:layout_height="@dimen/Image_Button_Size"
-    android:id="@+id/settingsIBT"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentRight="true"
-    android:background="@drawable/settings_image_button"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:visibility="invisible"
-    android:contentDescription="@string/settings_imagebutton_content_description"/>
+        android:layout_width="@dimen/Image_Button_Size"
+        android:layout_height="@dimen/Image_Button_Size"
+        android:id="@+id/settingsIBT"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/settings_image_button"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:visibility="invisible"
+        android:contentDescription="@string/settings_imagebutton_content_description"/>
 
     <ImageButton
         android:layout_width="@dimen/Image_Button_Size"
@@ -82,8 +77,10 @@
         android:id="@+id/helpIBT"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="@drawable/faq_image_button"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:visibility="invisible"
         android:contentDescription="@string/settings_imagebutton_content_description"/>

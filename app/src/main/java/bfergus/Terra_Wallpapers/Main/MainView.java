@@ -7,11 +7,9 @@ import android.widget.ImageView;
 
 public interface MainView{
 
-     ImageView getImageView();
-     
      void showProgressViews(String msg);
 
-     void setImageViewPicture(Bitmap bitmap);
+     void setImageView(Bitmap bitmap);
 
      void removeProgressViews();
 

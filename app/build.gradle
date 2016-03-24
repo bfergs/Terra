@@ -8,12 +8,13 @@ android {
         applicationId "bfergus.Terra_Wallpapers"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 3
-        versionName "1.2"
+        versionCode 6
+        versionName "1.5"
     }
     buildTypes {
         release {
             minifyEnabled false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -24,7 +25,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta1'
     compile 'com.squareup.okhttp:okhttp:2.6.0'

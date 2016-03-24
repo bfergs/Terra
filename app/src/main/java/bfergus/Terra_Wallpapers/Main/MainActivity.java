@@ -26,10 +26,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView, ImageButton.OnClickListener{
 
-    MainPresenterInterface presenter;
-
-    @Bind(R.id.dummy_Image_View)
-    ImageView Dummy_Image_View;
+    MainPresenter presenter;
 
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
@@ -57,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = new MainPresenter(this, getApplicationContext());
+        presenter = new MainPresenterImpl(this, getApplicationContext());
         saveWallPaperIBT.setOnClickListener(this);
         setWallPaperIBT.setOnClickListener(this);
         settingsIBT.setOnClickListener(this);
@@ -68,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
     protected void onResume() {
         super.onResume();
         presenter.onResume();
+
     }
 
     @Override
@@ -76,11 +74,8 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
         presenter.onDestroy();
     }
 
-    public ImageView getImageView() {
-        return Dummy_Image_View;
-    }
 
-    public void setImageViewPicture(Bitmap bitmap) {
+    public void setImageView(Bitmap bitmap) {
 
         actualImageView.setImageBitmap(bitmap);
     }
@@ -121,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements MainView, ImageBu
                 .setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        removeProgressViews();
+                        finish();
                     }
                 });
         builder.create();

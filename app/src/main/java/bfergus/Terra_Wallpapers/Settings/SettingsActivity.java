@@ -14,13 +14,13 @@ import bfergus.Terra_Wallpapers.R;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsView {
 
-    SettingsPresenterInterface presenter;
+    SettingsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        presenter = new SettingsPresenter(this,getApplicationContext());
+        presenter = new SettingsPresenterImpl(this,getApplicationContext());
     }
     @Override
     protected void onResume() {
