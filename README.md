@@ -1,4 +1,4 @@
-**Terra!** is an Android app that provides high quality wallpapers depicting some of earths most beautiful landscapes!
+**Terra** is an Android app that provides high quality wallpapers depicting some of earths most beautiful landscapes!
 
 Features: 
 * Automatically change wallpapers every 24 hours
