@@ -4,7 +4,7 @@ public interface SettingsPresenter {
 
     void onResume();
 
-    void onStop();
+    void onPause();
 
     boolean getAutomaticModeStatus();
 

@@ -5,17 +5,14 @@ package bfergus.Terra_Wallpapers.Main;
 
 public interface MainPresenter {
 
-    void addImageToGallery();
+    void saveImageToGallery();
+
+    String getFileNameForTodaysImage();
 
     void onResume();
 
     void onDestroy();
 
-    void startWallpaperLoader();
-
-    void navigateToSettingsScreen();
-
-    void navigateToFaqScreen();
 
 
 }

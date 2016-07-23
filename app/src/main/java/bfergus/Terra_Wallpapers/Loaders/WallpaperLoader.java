@@ -1,19 +1,19 @@
-package bfergus.Terra_Wallpapers.Main;
+package bfergus.Terra_Wallpapers.Loaders;
 
 import android.app.WallpaperManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+
 import android.graphics.Bitmap;
 
 public class WallpaperLoader extends AsyncTaskLoader<Boolean> {
 
-    Bitmap wallPaperBitmap;
+        Bitmap wallPaperBitmap;
 
-    public WallpaperLoader(Context context, Bitmap bitmap) {
-        super(context);
-        this.wallPaperBitmap = bitmap;
-
-    }
+        public WallpaperLoader(Context context, Bitmap bitmap) {
+            super(context);
+            this.wallPaperBitmap = bitmap;
+        }
 
     @Override
     public Boolean loadInBackground() {
@@ -27,3 +27,4 @@ public class WallpaperLoader extends AsyncTaskLoader<Boolean> {
         }
     }
 }
+

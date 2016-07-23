@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -8,13 +9,13 @@ android {
         applicationId "bfergus.Terra_Wallpapers"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.5"
+        versionCode 8
+        versionName "1.7"
     }
     buildTypes {
         release {
             minifyEnabled false
-
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {

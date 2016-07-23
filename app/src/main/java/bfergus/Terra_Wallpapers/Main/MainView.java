@@ -2,19 +2,24 @@ package bfergus.Terra_Wallpapers.Main;
 
 import android.graphics.Bitmap;
 
+import bfergus.Terra_Wallpapers.Model.RedditApiModel;
+
 
 public interface MainView{
 
-     void showProgressViews(String msg);
+     void displayProgressViews();
 
-     void setImageView(Bitmap bitmap);
+     void setImageView();
 
-     void removeProgressViews();
+     boolean hasWallpaperBitmap();
 
      void showButtons();
 
-     void showToast(String msg);
+     void showShortToast(String msg);
 
-     void displayAlertDialog(String title, String message, String positiveText, String negativeText);
+     void displayWallpaperDownloadFailedDialog();
 
+     void getWallpaperBitmap(final RedditApiModel redditUrls, final int position);
+
+     void saveImageToGallery();
 }

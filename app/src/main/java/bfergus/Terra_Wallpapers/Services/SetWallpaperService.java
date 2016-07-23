@@ -14,15 +14,21 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.squareup.okhttp.Cache;
+import com.squareup.okhttp.OkHttpClient;
 
 
 import bfergus.Terra_Wallpapers.Model.RedditApiModel;
-import bfergus.Terra_Wallpapers.Utils.NetworkUtils;
 
+import bfergus.Terra_Wallpapers.R;
+import bfergus.Terra_Wallpapers.Reddit_API_Interface;
+import bfergus.Terra_Wallpapers.TerraApplication;
 import retrofit.Call;
 import retrofit.Callback;
 
+import retrofit.GsonConverterFactory;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 
 public class SetWallpaperService extends IntentService {
@@ -91,7 +97,7 @@ public class SetWallpaperService extends IntentService {
 
     //Retrieves a list of 25 image urls from Reddit.com
     private void retrieveImageUrls() {
-        Call<RedditApiModel> call = NetworkUtils.getApiCall();
+        Call<RedditApiModel> call = getApiCall();
         call.enqueue(new Callback<RedditApiModel>() {
             @Override
             public void onResponse(Response<RedditApiModel> response) {
@@ -105,5 +111,28 @@ public class SetWallpaperService extends IntentService {
         });
     }
 
+    private  Call<RedditApiModel> getApiCall() {
+        Reddit_API_Interface redditAPI = getRetrofit().create(Reddit_API_Interface.class);
+        return redditAPI.getEarth();
+    }
 
+    private Retrofit getRetrofit() {
+        return new Retrofit.Builder()
+                .baseUrl(TerraApplication.getInstance().getString(R.string.reddit_base_url))
+                .client(getCache())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    private OkHttpClient getCache() {
+        Context context = TerraApplication.getInstance();
+        OkHttpClient client = new OkHttpClient();
+        Cache cache = new Cache(context.getCacheDir(), 1024 * 1024 * 10);
+        client.setCache(cache);
+        return client;
+    }
 }
+
+
+
+

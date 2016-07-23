@@ -29,6 +29,7 @@
     <!-- Toast Strings -->
     <string name ="Wallpaper_Set">Wallpaper Has Been Set!</string>
     <string name ="Wallpaper_Error">Error Setting The Wallpaper</string>
+    <string name ="Wallpaper_Error_No_Permissions">Unable to save wallpaper.\nPlease make sure storage permissions are enabled.</string>
     <string name ="Wallpaper_Saved">Wallpaper Saved To Gallery</string>
     <string name="Wallpaper_save_error">Error Saving Wallpaper</string>
     <string name="title_activity_activity_settings">activity_settings</string>

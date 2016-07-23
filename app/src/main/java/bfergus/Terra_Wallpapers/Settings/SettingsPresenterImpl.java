@@ -1,47 +1,32 @@
 package bfergus.Terra_Wallpapers.Settings;
 
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.SystemClock;
-
-import bfergus.Terra_Wallpapers.Services.SetWallpaperService;
 import bfergus.Terra_Wallpapers.Utils.PreferencesUtils;
 
 public class SettingsPresenterImpl implements SettingsPresenter {
 
     SettingsView view;
 
-    Context appContext;
 
-    boolean automaticMode = false;
+    boolean automaticModeEnabled = false;
 
     //boolean that's true only if automatic mode's status is changed when the activity is stopped.
     boolean alarmStatusChanged = false;
 
-    public SettingsPresenterImpl(SettingsView view, Context context) {
+    public SettingsPresenterImpl(SettingsView view) {
         this.view = view;
-        this.appContext = context;
     }
 
     public void onResume() {
-       automaticMode = PreferencesUtils.getAutomaticMode();
+       automaticModeEnabled = PreferencesUtils.getAutomaticMode();
     }
 
-    public void onStop() {
-        PreferencesUtils.setAutomaticMode(automaticMode);
+    public void onPause() {
+        PreferencesUtils.setAutomaticMode(automaticModeEnabled);
        if(alarmStatusChanged) handleAutomaticMode();
     }
 
     private void handleAutomaticMode() {
-        AlarmManager alarmMngr = (AlarmManager)appContext.getSystemService(appContext.ALARM_SERVICE);
-        Intent intent = new Intent(appContext, SetWallpaperService.class);
-        PendingIntent  alarmIntent = PendingIntent.getService(appContext, 0, intent, 0);
-        alarmMngr.cancel(alarmIntent);
-        if(automaticMode) alarmMngr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000, AlarmManager.INTERVAL_DAY, alarmIntent);
+       view.handleAutomaticWallpaperService(automaticModeEnabled);
     }
 
     public void onDestroy() {
@@ -49,11 +34,11 @@ public class SettingsPresenterImpl implements SettingsPresenter {
     }
 
     public boolean getAutomaticModeStatus() {
-        return automaticMode;
+        return automaticModeEnabled;
     }
 
     public void setAutomaticModeStatus(boolean status) {
-        this.automaticMode = status;
+        this.automaticModeEnabled = status;
         alarmStatusChanged = (alarmStatusChanged == false) ? true : false;
     }
 }
