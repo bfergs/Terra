@@ -30,13 +30,15 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
     @Override
     protected void onResume() {
         super.onResume();
+        System.out.println("fu");
         presenter.onResume();
         invalidateOptionsMenu();
     }
 
     @Override
-    protected void onPause(){
+    public void onPause(){
         super.onPause();
+        System.out.println("Fu");
         presenter.onPause();
     }
 
@@ -51,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
         Intent intent = new Intent(this, SetWallpaperService.class);
         PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
         alarmMngr.cancel(alarmIntent);
-        if(activateService) alarmMngr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000, AlarmManager.INTERVAL_DAY, alarmIntent);
+        if(activateService) alarmMngr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 100, AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 
     @Override

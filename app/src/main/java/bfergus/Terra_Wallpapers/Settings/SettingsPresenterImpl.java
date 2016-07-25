@@ -9,20 +9,18 @@ public class SettingsPresenterImpl implements SettingsPresenter {
 
     boolean automaticModeEnabled = false;
 
-    //boolean that's true only if automatic mode's status is changed when the activity is stopped.
-    boolean alarmStatusChanged = false;
-
     public SettingsPresenterImpl(SettingsView view) {
         this.view = view;
     }
 
     public void onResume() {
        automaticModeEnabled = PreferencesUtils.getAutomaticMode();
+        System.out.println(automaticModeEnabled);
     }
 
     public void onPause() {
         PreferencesUtils.setAutomaticMode(automaticModeEnabled);
-       if(alarmStatusChanged) handleAutomaticMode();
+       if(automaticModeEnabled) handleAutomaticMode();
     }
 
     private void handleAutomaticMode() {
@@ -39,6 +37,5 @@ public class SettingsPresenterImpl implements SettingsPresenter {
 
     public void setAutomaticModeStatus(boolean status) {
         this.automaticModeEnabled = status;
-        alarmStatusChanged = (alarmStatusChanged == false) ? true : false;
     }
 }
